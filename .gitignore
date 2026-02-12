@@ -1,0 +1,8 @@
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Environment variables & Secrets (Safety First!)
+.env
+.DS_Store
+venv/
