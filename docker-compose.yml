@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  nasiko-agent:
+    build: .
+    container_name: nasiko_agent_container
+    volumes:
+      # Sync the current folder so code changes & docstrings are saved to your Mac
+      - .:/usr/src/project
+    env_file:
+      - .env
+    # This overrides the CMD in Dockerfile if you need to change arguments
+    command: python -m app docstring test_files/
