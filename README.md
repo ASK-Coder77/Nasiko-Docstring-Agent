@@ -1,32 +1,41 @@
-# Nasiko AI Docstring Agent
+# 🚀 Nasiko AI Docstring Agent (Local LLM Edition)
 
-## Hackathon Submission
-This project is a submission for the **Epoch X Nasiko Hackathon - Challenge 1**. It is an AI-powered agent designed to automate the documentation of Python source code.
+## 🏆 Hackathon Submission
+**Event:** Epoch X Nasiko Hackathon
+**Challenge:** AI Documentation Agent
 
-## Agent Design
-The agent is built using a modular architecture to ensure reliability and precision:
+## 📖 Overview
+The **Nasiko AI Docstring Agent** is a privacy-first, fully offline tool that automatically documents Python source code. Unlike traditional tools that rely on expensive cloud APIs, this agent uses **Local LLMs (via Ollama)** to generate professional, Google-style docstrings without your code ever leaving your laptop.
 
-* **AST Parsing:** Uses Python's `ast` (Abstract Syntax Tree) module to identify classes and functions missing docstrings.
-* **Intelligence Layer:** Integrates with **Google Gemini 1.5/2.0 Flash** to generate context-aware, Google-style documentation.
-* **Safe Injection:** Docstrings are injected directly into the source code at the correct indentation levels.
-* **Rate Limit Protection:** Features a built-in delay mechanism to stay within Gemini Free Tier API limits.
-* **Mock Mode Support:** Includes an emergency mock generator to allow functionality testing even when API quotas are exhausted.
+## ✨ Key Features
+* **🔒 100% Privacy:** Your code is processed locally. No data is sent to the cloud.
+* **⚡ Zero Cost:** Runs entirely on your hardware using open-source models (DeepSeek Coder / Mistral).
+* **🧠 Intelligent Parsing:** Uses Python's `ast` (Abstract Syntax Tree) to accurately identify undocumented functions and classes.
+* **🛡️ Robust Fallback:** Includes a "Mock Mode" that generates structural templates if no AI model is detected.
+* **✅ Auto-Formatting:** Inserts docstrings with correct indentation and adheres to Google Python Style Guide.
 
-## Installation & Usage
+## 🛠️ Tech Stack
+* **Language:** Python 3.8+
+* **AI Engine:** Ollama (DeepSeek Coder / Qwen 2.5)
+* **Core Libraries:** `ast`, `ollama`
 
-### Prerequisites
-* Python 3.8+
-* Google Gemini API Key
+---
 
-### Setup
-1. **Clone the repository:**
-   ```bash
-   git clone <your-repo-link>
-   cd NASIKO_EPOCH
+## 🚀 Installation & Setup
 
-**To run the agent**
+### 1. Prerequisites
+* Python 3.8 or higher
+* [Ollama](https://ollama.com/) installed on your machine.
+
+### 2. Clone the Repository
+```bash
+git clone [https://github.com/YOUR_USERNAME/Nasiko_Epoch_Submission.git](https://github.com/YOUR_USERNAME/Nasiko_Epoch_Submission.git)
+cd NASIKO_EPOCH
+
+pip install -r requirements.txt
+
+##Pull the coding model you want to use (we recommend deepseek-coder or qwen2.5-coder):
+ollama pull deepseek-coder
+
+**Run
 python3 -m app docstring test_files/
-
-##  Edge Case Handling
-* **Empty Files:** The agent detects and skips files with no content.
-* **Syntax Errors:** Uses `try-except` blocks to prevent crashes when encountering invalid Python syntax.
