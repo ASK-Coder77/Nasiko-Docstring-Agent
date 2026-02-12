@@ -1,33 +1,44 @@
 import ast
 import time
+import ollama
+from .config import MODEL_ID, TEMPERATURE
 from .tools import read_file, write_file, parse_source_code, find_undocumented_nodes
-
-# Note: We don't even need to import the AI library here for Mock Mode
-# This prevents free API-related problems and errors.
 
 class DocstringAgent:
     def __init__(self):
-        # We simulate a client connection
-        pass
+        print(f"✅ Agent initialized using Local AI: {MODEL_ID}")
 
     def generate_docstring(self, node_type, name, code_segment):
         """
-        MOCK GENERATION: Returns a template string immediately.
-        This bypasses Google's API limits and errors completely.
+        Generates a docstring using a local Ollama model.
         """
-        print(f"  [MOCK] Generating professional docstring for {name}...")
+        prompt = f"""
+        You are an expert Python developer. Generate a clean, concise **Google-style docstring** for the following {node_type}.
         
-        return f'''"""
-    [AI Generated] Automatic documentation for {name}.
-    
-    This {node_type.lower()} was identified by the Nasiko Agent as missing a docstring.
-    
-    Args:
-        TODO: Check specific arguments for {name}.
+        Requirements:
+        - Include 'Args:', 'Returns:', and 'Raises:' sections if applicable.
+        - Do NOT wrap the output in markdown code blocks (```).
+        - Return ONLY the raw docstring text (quoted in triple quotes).
         
-    Returns:
-        None: (Placeholder return value)
-    """'''
+        Code to document ({name}):
+        {code_segment}
+        """
+
+        try:
+            # Call the local Ollama API
+            response = ollama.chat(model=MODEL_ID, messages=[
+                {'role': 'user', 'content': prompt}
+            ])
+            
+            # Extract the content from the response
+            docstring = response['message']['content']
+            
+            # Clean up potential markdown formatting
+            return docstring.strip().strip('`')
+            
+        except Exception as e:
+            print(f"  !! Ollama Error for {name}: {e}")
+            return None
 
     def process_file(self, file_path):
         source = read_file(file_path)
@@ -46,18 +57,19 @@ class DocstringAgent:
         modified = False
         
         for i, node in enumerate(nodes):
+            print(f"  Generating docstring for {node.name}...")
             
             code_segment = ast.get_source_segment(source, node)
             if not code_segment: continue
 
             node_type = type(node).__name__
-
             docstring = self.generate_docstring(node_type, node.name, code_segment)
             
             if docstring:
                 insertion_line_idx = node.body[0].lineno - 1
                 indentation = " " * node.col_offset + "    "
                 
+                # Ensure the docstring has correct indentation
                 formatted_doc = f"{indentation}{docstring}\n"
                 lines.insert(insertion_line_idx, formatted_doc)
                 modified = True

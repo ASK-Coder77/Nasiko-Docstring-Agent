@@ -1,11 +1,5 @@
-import os
-from dotenv import load_dotenv
+# The model name you pulled in Ollama (e.g., "deepseek-coder", "mistral", "llama3")
+MODEL_ID = "deepseek-coder" 
 
-load_dotenv()
-
-API_KEY = os.environ.get("GEMINI_API_KEY")
-MODEL_ID = "gemini-2.0-flash"
-TEMPERATURE = 0.1
-
-if not API_KEY:
-    raise ValueError("GEMINI_API_KEY not found. Make sure you have a .env file with your key!")
+# Adjust creativity (0.0 is deterministic/safe, 0.7 is creative)
+TEMPERATURE = 0.2
