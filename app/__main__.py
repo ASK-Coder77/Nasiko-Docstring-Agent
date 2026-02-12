@@ -4,12 +4,10 @@ from .agents import DocstringAgent
 
 def main():
     parser = argparse.ArgumentParser()
-    # Accept 'mode' (docstring) and 'target' (folder)
     parser.add_argument("mode", nargs="?", default="docstring", help="Mode: docstring")
     parser.add_argument("target", help="File or Folder")
     args = parser.parse_args()
 
-    # Smart handling: If user forgets 'docstring' keyword, assume arg 1 is the folder
     target_path = args.target
     if args.mode not in ["docstring"]:
         target_path = args.mode 

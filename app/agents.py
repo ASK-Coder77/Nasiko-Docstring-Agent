@@ -3,7 +3,7 @@ import time
 from .tools import read_file, write_file, parse_source_code, find_undocumented_nodes
 
 # Note: We don't even need to import the AI library here for Mock Mode
-# This prevents ALL API-related crashes.
+# This prevents free API-related problems and errors.
 
 class DocstringAgent:
     def __init__(self):
@@ -17,7 +17,6 @@ class DocstringAgent:
         """
         print(f"  [MOCK] Generating professional docstring for {name}...")
         
-        # This is the string that will appear in your Python files
         return f'''"""
     [AI Generated] Automatic documentation for {name}.
     
@@ -47,12 +46,10 @@ class DocstringAgent:
         modified = False
         
         for i, node in enumerate(nodes):
-            # No wait time needed for Mock Mode!
             
             code_segment = ast.get_source_segment(source, node)
             if not code_segment: continue
 
-            # Fix the _name_ error safely
             node_type = type(node).__name__
 
             docstring = self.generate_docstring(node_type, node.name, code_segment)
