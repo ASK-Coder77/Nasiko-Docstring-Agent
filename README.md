@@ -3,7 +3,7 @@
 ## Hackathon Submission
 This project is a submission for the **Epoch X Nasiko Hackathon - Challenge 1**. It is an AI-powered agent designed to automate the documentation of Python source code.
 
-## 🏗 Agent Design
+## Agent Design
 The agent is built using a modular architecture to ensure reliability and precision:
 
 * **AST Parsing:** Uses Python's `ast` (Abstract Syntax Tree) module to identify classes and functions missing docstrings.
